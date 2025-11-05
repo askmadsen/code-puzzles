@@ -1,6 +1,6 @@
-# Advent of Code Solutions
+# Code Puzzles
 
-Welcome to my **Advent of Code** repository, a collection of Python solutions for challenges from multiple years. Each year and day is organized for easy navigation and execution.
+Welcome to my **Code Puzzles** repository, a collection of Python solutions for challenges from multiple years of advent of code. To access the problems and puzzle inputs see the official webpage: [Advent of Code](https://adventofcode.com/about)
 
 ## Repository Structure
 
@@ -45,4 +45,3 @@ python run.py --year YEAR --day DayX --part <1|2> --method <fast|slow|both> --in
 - This repository does not include official input files; provide your own input when running solutions.
 - Optional small test inputs may exist within each day’s folder to quickly verify correctness.
 - Fast and slow implementations allow comparing brute-force vs optimized approaches.
-
