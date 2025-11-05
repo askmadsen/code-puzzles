@@ -1,0 +1,5 @@
+# Core libraries
+numpy>=1.25
+
+# CLI / argument parsing
+tyro>=0.5
