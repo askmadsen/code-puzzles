@@ -91,5 +91,6 @@ python run.py --year 2020 --day Day20 --part 2 --method fast --input y2020/Day20
 
 
 ## Additional Information
-- This repository does not include official input files. Optional small test inputs may exist within each day’s folder to quickly verify correctness.
+- This repository does **not** include official puzzle inputs, puzzle descriptions, or any other Advent of Code content. Only my own solutions to teh puzzles are provided. The repository does **not** use the Advent of Code brand beyond mentioning the brand name and linking to the [official site](https://adventofcode.com/about).  
+- Optional small test inputs may exist within each day’s folder to quickly verify correctness.
 - Fast and slow implementations allow comparing brute-force vs optimized approaches.
