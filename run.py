@@ -2,45 +2,60 @@ import tyro
 import importlib
 import time
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Literal
+from dataclasses import dataclass
 
 
-def main(
-    year: int,
-    day: str,
-    part: int = 1,
-    method: str = "fast",         # "fast", "slow", or "both"
-    input: Optional[str] = None,  # path to input file
-):
+
+@dataclass 
+class RunConfig:
+    """
+    Configuration for running the Advent of Code CLI.
+
+    Attributes:
+        year (int): Which Advent of Code year to run.  
+        day (int): Which Advent of Code day to run.
+        part (int): Which Advent of Code part to run. Default value is 1.
+        method (str): Which method to run.
+        input (Optional[str]): Path to input file or an input string.
+    """
+    year: int
+    day: int
+    part: int = 1
+    method: Literal["fast", "slow", "both"] = "fast"
+    input: Optional[str] = None
+
+
+def main():
     """
     Runs an advent of code solution for a given year/day/part.
     """
-    module_path = f"y{year}.{day}.solution"
+    configs = tyro.cli(RunConfig)
+    module_path = f"y{configs.year}.Day{configs.day}.solution"
     try:
         module = importlib.import_module(module_path)
     except ModuleNotFoundError:
-        print(f"Module for Year {year}, Day {day} not found.")
+        print(f"Module for Year {configs.year}, Day {configs.day} not found.")
         return
 
     # Load input
     input_str = ""
-    if input:
+    if input is not None:
         input_path = Path(input)
-        if input_path.is_file():
+        if input_path.is_file():  # It's a file path
             input_str = input_path.read_text()
-        else:
-            print(f"Input file '{input}' not found. Running with empty input.")
-
-    # Determine which methods to run
-    methods_to_run = [method] if method != "both" else ["fast", "slow"]
+        else:  # Treat it as a direct string input
+            input_str = str(input)
+        # Determine which methods to run
+    methods_to_run = [configs.method] if configs.method != "both" else ["fast", "slow"]
 
     any_run = False
     for m in methods_to_run:
-        fn_name = f"solve_part{part}_{m}"
+        fn_name = f"solve_part{configs.part}_{m}"
         fn = getattr(module, fn_name, None)
 
         if fn is None:
-            print(f"{m.title()} solution for Part {part} is not implemented.")
+            print(f"{m.title()} solution for Part {configs.part} is not implemented.")
             continue
 
         any_run = True
@@ -55,11 +70,11 @@ def main(
 
         # Formats duration as ms or s depending on duration time
         time_str = f"{duration*1000:.3f} ms" if duration < 1 else f"{duration:.3f} s"
-        print(f"[{m.upper()}] Part {part} → Output: {result} | Time: {time_str}")
+        print(f"[{m.upper()}] Part {configs.part} → Output: {result} | Time: {time_str}")
 
     if not any_run:
         print("No implemented solutions found for the given configuration.")
 
 
 if __name__ == "__main__":
-    tyro.cli(main)
+    main()
